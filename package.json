@@ -5,7 +5,8 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "start": "node apps/api/dist/main"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
@@ -15,5 +16,11 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "dependencies": {
+    "@nestjs/serve-static": "^4.0.2"
   }
 }
