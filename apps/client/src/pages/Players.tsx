@@ -5,27 +5,28 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useTranslation } from "react-i18next";
 
 export const PlayersPage: FC = () => {
   const { data, isSuccess } = usePlayersQuery();
+  const { t } = useTranslation(undefined, { keyPrefix: "players" });
 
-  if (!isSuccess) return "Načítám data hráčů...";
+  if (!isSuccess) return t("loading");
 
   const { data: players } = data;
 
   return (
     <Table>
-      <TableCaption>Seznam hráčů.</TableCaption>
+      <TableCaption>{t("title")}</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Přezdívka</TableHead>
-          <TableHead>Jméno</TableHead>
-          <TableHead>Příjmení</TableHead>
+          <TableHead className="w-[100px]">{t("nick_name")}</TableHead>
+          <TableHead>{t("first_name")}</TableHead>
+          <TableHead>{t("last_name")}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -37,12 +38,6 @@ export const PlayersPage: FC = () => {
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Celkem</TableCell>
-          <TableCell className="text-right">{players?.length} hráčů</TableCell>
-        </TableRow>
-      </TableFooter>
     </Table>
   );
 };
