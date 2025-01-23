@@ -1,3 +1,7 @@
 import { client } from "..";
+import { Tables } from "../database.types";
 
-export const getPlayers = async () => await client.from("player").select();
+export type Player = Tables<"player">;
+
+export const getPlayers = async () =>
+  await client.from("player").select().order("nick_name");
