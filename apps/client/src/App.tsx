@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import { PlayersPage } from "./pages/players";
 import { Layout } from "./components/layout";
 import { ThemeProvider } from "@/components/theme-provider";
+import { RankingPage } from "./pages/ranking";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ const App = () => (
           <Route element={<Layout />}>
             <Route index element={<div>Home</div>} />
             <Route path="/players" element={<PlayersPage />} />
+            <Route path="/ranking" element={<RankingPage />} />
           </Route>
         </Routes>
       </ThemeProvider>

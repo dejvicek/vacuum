@@ -19,8 +19,9 @@ export const Layout: FC = () => {
   const { t } = useTranslation();
 
   const routes: RouteData[] = [
-    { path: "/", title: "Home" },
+    { path: "/", title: t("home.title") },
     { path: "/players", title: t("players.title") },
+    { path: "/ranking", title: t("ranking.title") },
   ];
 
   return (

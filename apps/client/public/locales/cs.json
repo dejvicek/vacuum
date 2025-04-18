@@ -1,9 +1,17 @@
 {
+  "home": { "title": "Domů" },
   "players": {
     "title": "Seznam hráčů",
     "loading": "Načítám data hráčů...",
     "nick_name": "Přezdívka",
     "first_name": "Jméno",
     "last_name": "Příjmení"
+  },
+  "ranking": {
+    "title": "Žebříček",
+    "nick_name": "Přezdívka",
+    "first_name": "Jméno",
+    "last_name": "Příjmení",
+    "points": "Body"
   }
 }
