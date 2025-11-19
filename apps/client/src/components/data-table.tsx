@@ -56,7 +56,7 @@ export const DataTable = <TData, TValue>({ data, columns }: DataTableProps<TData
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-center">
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
@@ -83,9 +83,9 @@ export const DataTable = <TData, TValue>({ data, columns }: DataTableProps<TData
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+      <div className="flex items-center justify-center sm:justify-between space-x-2 py-4 ">
+        <div className="flex items-center space-x-2 hidden sm:flex">
+          <p className="text-sm font-medium hidden sm:block">Rows per page</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
