@@ -44,9 +44,7 @@ export const Layout: FC = () => {
           <ModeToggle />
         </div>
       </div>
-      <div>
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   );
 };

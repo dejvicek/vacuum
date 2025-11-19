@@ -13,7 +13,7 @@ export const RankingPage: FC = () => {
   const { data: rankingData } = data;
 
   return (
-    <div className="container mx-auto py-10 min-w-192">
+    <div className="container mx-auto py-10 lg:max-w-192">
       <DataTable columns={getColumns(t)} data={rankingData ?? []} />
     </div>
   );
