@@ -1,6 +1,6 @@
-import { getQuarterEnd } from "./getQuarterEnd";
-import { getQuarterStart } from "./getQuarterStart";
-import { isDateStringValid } from "./isDateStringValid";
+import { getQuarterEnd } from './getQuarterEnd';
+import { getQuarterStart } from './getQuarterStart';
+import { isDateStringValid } from './isDateStringValid';
 
 export type QuarterRange = {
   start: string;

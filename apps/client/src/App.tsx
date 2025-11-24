@@ -1,10 +1,10 @@
-import "./App.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router";
-import { PlayersPage } from "./pages/players";
-import { Layout } from "./components/layout";
-import { ThemeProvider } from "@/components/theme-provider";
-import { RankingPage } from "./pages/ranking";
+import './App.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { PlayersPage } from './pages/players';
+import { Layout } from './components/layout';
+import { ThemeProvider } from '@/components/theme-provider';
+import { RankingPage } from './pages/ranking';
 
 const queryClient = new QueryClient();
 

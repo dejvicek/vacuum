@@ -1,14 +1,14 @@
-import { FC } from "react";
-import { NavLink, Outlet } from "react-router";
+import { FC } from 'react';
+import { NavLink, Outlet } from 'react-router';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import { useTranslation } from "react-i18next";
-import { ModeToggle } from "./mode-toggle";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+} from '@/components/ui/navigation-menu';
+import { useTranslation } from 'react-i18next';
+import { ModeToggle } from './mode-toggle';
+import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 
 type RouteData = {
   path: string;
@@ -19,9 +19,9 @@ export const Layout: FC = () => {
   const { t } = useTranslation();
 
   const routes: RouteData[] = [
-    { path: "/", title: t("home.title") },
-    { path: "/players", title: t("players.title") },
-    { path: "/ranking", title: t("ranking.title") },
+    { path: '/', title: t('home.title') },
+    { path: '/players', title: t('players.title') },
+    { path: '/ranking', title: t('ranking.title') },
   ];
 
   return (
@@ -33,11 +33,7 @@ export const Layout: FC = () => {
               {routes.map(({ path, title }) => (
                 <NavigationMenuItem>
                   <NavLink to={path}>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      {title}
-                    </NavigationMenuLink>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>{title}</NavigationMenuLink>
                   </NavLink>
                 </NavigationMenuItem>
               ))}

@@ -1,5 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { getRanking } from "../api/ranking";
+import { useQuery } from '@tanstack/react-query';
+import { getRanking } from '../api/ranking';
 
-export const useRankingQuery = () =>
-  useQuery({ queryKey: ["ranking"], queryFn: getRanking });
+export const useRankingQuery = () => useQuery({ queryKey: ['ranking'], queryFn: getRanking });

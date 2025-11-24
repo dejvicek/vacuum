@@ -1,12 +1,6 @@
-import { generatePaginationLinks } from "./data-table-pagination-links";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
-} from "./ui/pagination";
-import { FC } from "react";
+import { generatePaginationLinks } from './data-table-pagination-links';
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from './ui/pagination';
+import { FC } from 'react';
 
 interface DataTablePaginationProps {
   currentPage: number;
@@ -26,10 +20,7 @@ export const DataTablePagination: FC<DataTablePaginationProps> = ({
       <PaginationContent>
         {showPreviousNext && totalPages ? (
           <PaginationItem>
-            <PaginationPrevious
-              onClick={() => onPageChange(currentPage - 1)}
-              aria-disabled={currentPage - 1 < 1}
-            />
+            <PaginationPrevious onClick={() => onPageChange(currentPage - 1)} aria-disabled={currentPage - 1 < 1} />
           </PaginationItem>
         ) : null}
         {generatePaginationLinks(currentPage, totalPages, onPageChange)}

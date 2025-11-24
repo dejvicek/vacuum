@@ -1,11 +1,7 @@
 // this implementation can be a bit jumpy for larger tables, but should be good for most and easily adaptable if not
 // this file is where your logic for how when ellipses are shown and other fiddly bits
 
-import {
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
+import { PaginationEllipsis, PaginationItem, PaginationLink } from '@/components/ui/pagination';
 
 export const generatePaginationLinks = (
   currentPage: number,
@@ -17,10 +13,7 @@ export const generatePaginationLinks = (
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
         <PaginationItem key={i}>
-          <PaginationLink
-            onClick={() => onPageChange(i)}
-            isActive={i === currentPage}
-          >
+          <PaginationLink onClick={() => onPageChange(i)} isActive={i === currentPage}>
             {i}
           </PaginationLink>
         </PaginationItem>
@@ -30,10 +23,7 @@ export const generatePaginationLinks = (
     for (let i = 1; i <= 2; i++) {
       pages.push(
         <PaginationItem key={i}>
-          <PaginationLink
-            onClick={() => onPageChange(i)}
-            isActive={i === currentPage}
-          >
+          <PaginationLink onClick={() => onPageChange(i)} isActive={i === currentPage}>
             {i}
           </PaginationLink>
         </PaginationItem>
@@ -43,10 +33,7 @@ export const generatePaginationLinks = (
       pages.push(<PaginationEllipsis />);
       pages.push(
         <PaginationItem key={currentPage}>
-          <PaginationLink
-            onClick={() => onPageChange(currentPage)}
-            isActive={true}
-          >
+          <PaginationLink onClick={() => onPageChange(currentPage)} isActive={true}>
             {currentPage}
           </PaginationLink>
         </PaginationItem>
@@ -56,10 +43,7 @@ export const generatePaginationLinks = (
     for (let i = totalPages - 1; i <= totalPages; i++) {
       pages.push(
         <PaginationItem key={i}>
-          <PaginationLink
-            onClick={() => onPageChange(i)}
-            isActive={i === currentPage}
-          >
+          <PaginationLink onClick={() => onPageChange(i)} isActive={i === currentPage}>
             {i}
           </PaginationLink>
         </PaginationItem>
