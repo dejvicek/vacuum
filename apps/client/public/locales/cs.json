@@ -13,5 +13,14 @@
     "first_name": "Jméno",
     "last_name": "Příjmení",
     "points": "Body"
+  },
+  "pagination": {
+    "previous": "Předchozí",
+    "next": "Další",
+    "more_pages": "Více stránek",
+    "rows_per_page": "Počet na stránce"
+  },
+  "table": {
+    "no_results": "Žádné výsledky"
   }
 }
