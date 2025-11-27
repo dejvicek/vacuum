@@ -13,7 +13,7 @@ export const PlayersPage: FC = () => {
   const { data: playersData } = data;
 
   return (
-    <div className="container mx-auto py-10 min-w-192">
+    <div className="container mx-auto py-10 lg:max-w-192">
       <DataTable columns={getColumns(t)} data={playersData ?? []} />
     </div>
   );

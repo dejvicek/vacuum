@@ -10,6 +10,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import * as React from 'react';
+import { t } from 'i18next';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ColumnDef } from '@tanstack/react-table';
@@ -56,7 +57,7 @@ export const DataTable = <TData, TValue>({ data, columns }: DataTableProps<TData
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-center">
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
@@ -76,16 +77,16 @@ export const DataTable = <TData, TValue>({ data, columns }: DataTableProps<TData
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 flex-auto">
-                  <div className="flex justify-center">No results</div>
+                  <div className="flex justify-center">{t('table.no_results')}</div>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+      <div className="flex items-center justify-center sm:justify-between space-x-2 py-4 ">
+        <div className="flex items-center space-x-2 hidden sm:flex">
+          <p className="text-sm font-medium hidden sm:block">{t('pagination.rows_per_page')}</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
