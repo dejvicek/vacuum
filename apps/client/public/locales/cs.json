@@ -9,9 +9,6 @@
   },
   "ranking": {
     "title": "Žebříček",
-    "nick_name": "Přezdívka",
-    "first_name": "Jméno",
-    "last_name": "Příjmení",
     "points": "Body"
   },
   "pagination": {
@@ -22,5 +19,12 @@
   },
   "table": {
     "no_results": "Žádné výsledky"
+  },
+  "action_buttons": {
+    "add_player": "Přidat hráče",
+    "enter_score": "Zadat výsledek"
+  },
+  "form": {
+    "submit": "Odeslat"
   }
 }
