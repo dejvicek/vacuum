@@ -9,7 +9,8 @@
   },
   "ranking": {
     "title": "Žebříček",
-    "points": "Body"
+    "points": "Body",
+    "loading": "Načítám žebříček..."
   },
   "pagination": {
     "previous": "Předchozí",

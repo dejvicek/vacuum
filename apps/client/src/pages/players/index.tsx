@@ -6,9 +6,9 @@ import { getColumns } from './columns';
 
 export const PlayersPage: FC = () => {
   const { data: playersData, isSuccess } = usePlayersQuery();
-  const { t } = useTranslation(undefined, { keyPrefix: 'players' });
+  const { t } = useTranslation();
 
-  if (!isSuccess) return t('loading');
+  if (!isSuccess) return t('players.loading');
 
   return (
     <div className="container mx-auto py-10 lg:max-w-192">
