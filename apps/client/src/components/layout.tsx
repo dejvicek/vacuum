@@ -22,10 +22,10 @@ export const Layout: FC = () => {
             <NavigationMenu>
               <NavigationMenuList>
                 {routes.map(({ path, title }) => (
-                  <NavigationMenuItem>
-                    <NavLink to={path}>
-                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>{title}</NavigationMenuLink>
-                    </NavLink>
+                  <NavigationMenuItem key={path}>
+                    <NavigationMenuLink to={path} className={navigationMenuTriggerStyle()}>
+                      {title}
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 ))}
               </NavigationMenuList>

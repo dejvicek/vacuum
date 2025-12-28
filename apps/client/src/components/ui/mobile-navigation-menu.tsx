@@ -1,8 +1,8 @@
-import { FC, useState } from "react";
-import { Menu } from "lucide-react";
-import { Link } from "react-router";
-import { Button } from "./button";
-import { RouteData } from "@/hooks/useRoutes";
+import { FC, useState } from 'react';
+import { Menu } from 'lucide-react';
+import { Link } from 'react-router';
+import { Button } from './button';
+import { RouteData } from '@/hooks/useRoutes';
 
 type Props = {
   routes: RouteData[];
@@ -13,7 +13,7 @@ export const MobileNavigationMenu: FC<Props> = ({ routes }) => {
 
   return (
     <aside className="flex flex-col items-start sm:hidden">
-      <Button variant={"ghost"} onClick={() => setIsOpen(!isOpen)}>
+      <Button variant={'ghost'} onClick={() => setIsOpen(!isOpen)}>
         <Menu />
       </Button>
       {isOpen && (

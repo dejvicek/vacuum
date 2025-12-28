@@ -1,6 +1,3 @@
-// this implementation can be a bit jumpy for larger tables, but should be good for most and easily adaptable if not
-// this file is where your logic for how when ellipses are shown and other fiddly bits
-
 import { PaginationEllipsis, PaginationItem, PaginationLink } from '@/components/ui/pagination';
 
 export const generatePaginationLinks = (
@@ -30,16 +27,16 @@ export const generatePaginationLinks = (
       );
     }
     if (2 < currentPage && currentPage < totalPages - 1) {
-      pages.push(<PaginationEllipsis />);
+      pages.push(<PaginationEllipsis key="ellipsis-middle" />);
       pages.push(
         <PaginationItem key={currentPage}>
-          <PaginationLink onClick={() => onPageChange(currentPage)} isActive={true}>
+          <PaginationLink onClick={() => onPageChange(currentPage)} isActive>
             {currentPage}
           </PaginationLink>
         </PaginationItem>
       );
     }
-    pages.push(<PaginationEllipsis />);
+    pages.push(<PaginationEllipsis key="ellipsis-end" />);
     for (let i = totalPages - 1; i <= totalPages; i++) {
       pages.push(
         <PaginationItem key={i}>
