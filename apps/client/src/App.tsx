@@ -12,13 +12,15 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<div>Home</div>} />
-            <Route path="/players" element={<PlayersPage />} />
-            <Route path="/ranking" element={<RankingPage />} />
-          </Route>
-        </Routes>
+        <div className="container max-w-[80rem]">
+          <Routes>
+            <Route element={<Layout />}>
+              <Route index element={<div>Home</div>} />
+              <Route path="/players" element={<PlayersPage />} />
+              <Route path="/ranking" element={<RankingPage />} />
+            </Route>
+          </Routes>
+        </div>
       </ThemeProvider>
     </BrowserRouter>
   </QueryClientProvider>
