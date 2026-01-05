@@ -1,5 +1,5 @@
-import { t } from 'i18next';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export type RouteData = {
   path: string;
@@ -7,6 +7,7 @@ export type RouteData = {
 };
 
 export const useRoutes = (): RouteData[] => {
+  const { t } = useTranslation();
   return useMemo(() => {
     return [
       { path: '/', title: t('home.title') },
