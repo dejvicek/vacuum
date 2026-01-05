@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { Menu } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "./button";
-import { RouteData } from "@/types";
+import { RouteData } from "@/hooks/useRoutes";
 
 type Props = {
   routes: RouteData[];
@@ -19,7 +19,7 @@ export const MobileNavigationMenu: FC<Props> = ({ routes }) => {
       {isOpen && (
         <ul className="flex flex-col gap-6 items-start mt-5 pl-5">
           {routes.map(({ path, title }) => (
-            <li>
+            <li key={path}>
               <Link to={path} onClick={() => setIsOpen(false)}>
                 {title}
               </Link>
