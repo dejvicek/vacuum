@@ -13,16 +13,12 @@ describe('PlayerController', () => {
       nick_name: 'player1',
       first_name: 'John',
       last_name: 'Doe',
-      created_at: '2024-01-01T00:00:00Z',
-      updated_at: '2024-01-01T00:00:00Z',
     },
     {
       id: 2,
       nick_name: 'player2',
       first_name: 'Jane',
       last_name: 'Smith',
-      created_at: '2024-01-02T00:00:00Z',
-      updated_at: '2024-01-02T00:00:00Z',
     },
   ];
 
@@ -84,11 +80,9 @@ describe('PlayerController', () => {
       const playersWithNull: Player[] = [
         {
           id: 3,
-          nick_name: null,
+          nick_name: 'player3',
           first_name: 'Bob',
           last_name: null,
-          created_at: '2024-01-03T00:00:00Z',
-          updated_at: '2024-01-03T00:00:00Z',
         },
       ];
 
@@ -97,7 +91,7 @@ describe('PlayerController', () => {
       const result = await controller.getPlayers();
 
       expect(result).toEqual(playersWithNull);
-      expect(result[0].nick_name).toBeNull();
+      expect(result[0].last_name).toBeNull();
     });
   });
 });
