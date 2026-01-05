@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { db } from 'src/db';
+import { db } from '../db';
 import { usersTable } from '../db/schema';
 import { eq } from 'drizzle-orm';
 
