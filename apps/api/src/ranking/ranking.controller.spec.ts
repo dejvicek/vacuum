@@ -9,30 +9,18 @@ describe('RankingController', () => {
 
   const mockRankings: Ranking[] = [
     {
-      id: 1,
-      player_id: 1,
+      points: 1500,
       nick_name: 'player1',
       first_name: 'John',
       last_name: 'Doe',
-      total_score: 1500,
-      total_victories: 10,
-      total_defeats: 5,
-      total_matches: 15,
-      win_rate: 66.67,
-      average_score: 100,
+      num_of_tournaments: 10,
     },
     {
-      id: 2,
-      player_id: 2,
+      points: 1200,
       nick_name: 'player2',
       first_name: 'Jane',
       last_name: 'Smith',
-      total_score: 1200,
-      total_victories: 8,
-      total_defeats: 7,
-      total_matches: 15,
-      win_rate: 53.33,
-      average_score: 80,
+      num_of_tournaments: 8,
     },
   ];
 
@@ -103,41 +91,13 @@ describe('RankingController', () => {
     });
 
     it('should handle service errors gracefully', async () => {
-      const error = new Error('RPC call failed');
+      const error = new Error('Database query failed');
       jest.spyOn(service, 'getRankingBetweenDates').mockRejectedValue(error);
 
       await expect(
         controller.getRanking('2024-09-30', '2024-12-31'),
-      ).rejects.toThrow('RPC call failed');
+      ).rejects.toThrow('Database query failed');
       expect(service.getRankingBetweenDates).toHaveBeenCalledTimes(1);
-    });
-
-    it('should return rankings with null numeric fields', async () => {
-      const rankingsWithNull: Ranking[] = [
-        {
-          id: 3,
-          player_id: 3,
-          nick_name: 'player3',
-          first_name: 'Bob',
-          last_name: 'Johnson',
-          total_score: null,
-          total_victories: null,
-          total_defeats: null,
-          total_matches: null,
-          win_rate: null,
-          average_score: null,
-        },
-      ];
-
-      jest
-        .spyOn(service, 'getRankingBetweenDates')
-        .mockResolvedValue(rankingsWithNull);
-
-      const result = await controller.getRanking('2024-01-01', '2024-01-31');
-
-      expect(result).toEqual(rankingsWithNull);
-      expect(result[0].total_score).toBeNull();
-      expect(result[0].win_rate).toBeNull();
     });
 
     it('should handle only fromDate parameter', async () => {

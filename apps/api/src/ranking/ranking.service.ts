@@ -3,32 +3,29 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { SupabaseService } from '../supabase/supabase.service';
+import { db } from '../db';
+import { getRankingsBetweenDates } from '../db/schema';
 import { Ranking } from './ranking.types';
 
 @Injectable()
 export class RankingService {
   private readonly logger = new Logger(RankingService.name);
 
-  constructor(private readonly supabaseService: SupabaseService) {}
-
   async getRankingBetweenDates(
     fromDate: string = '2024-09-30',
     toDate: string = '2024-12-31',
   ): Promise<Ranking[]> {
     try {
-      const client = this.supabaseService.getClient();
+      const result = await db.execute(
+        getRankingsBetweenDates(fromDate, toDate),
+      );
 
-      const { data } = await client.rpc('get_rankings_between_dates', {
-        from_date: fromDate,
-        to_date: toDate,
-      });
-
-      return data as Ranking[];
+      return result.rows as unknown as Ranking[];
     } catch (error) {
-      this.logger.error(`Failed to fetch rankings: ${error.message}`, error);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Failed to fetch rankings: ${message}`, error);
       throw new InternalServerErrorException(
-        `Failed to fetch rankings: ${error.message}`,
+        `Failed to fetch rankings: ${message}`,
       );
     }
   }
