@@ -12,8 +12,8 @@ export class RankingService {
   private readonly logger = new Logger(RankingService.name);
 
   async getRankingBetweenDates(
-    fromDate: string = '2024-09-30',
-    toDate: string = '2024-12-31',
+    fromDate: string,
+    toDate: string,
   ): Promise<Ranking[]> {
     try {
       const result = await db.execute(

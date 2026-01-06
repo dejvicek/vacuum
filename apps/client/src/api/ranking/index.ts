@@ -9,8 +9,8 @@ const API_BASE_URL =
   import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export const getRanking = async (
-  fromDate: string = '2024-09-30',
-  toDate: string = '2024-12-31',
+  fromDate: string,
+  toDate: string,
 ): Promise<Ranking[]> => {
   const response = await fetch(
     `${API_BASE_URL}/ranking?fromDate=${fromDate}&toDate=${toDate}`,
