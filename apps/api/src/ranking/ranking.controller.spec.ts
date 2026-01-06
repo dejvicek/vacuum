@@ -58,9 +58,9 @@ describe('RankingController', () => {
         .spyOn(service, 'getRankingBetweenDates')
         .mockResolvedValue(mockRankings);
 
-      const result = await controller.getRanking(fromDate, toDate);
-
-      expect(result).toEqual(mockRankings);
+      expect(await controller.getRanking(fromDate, toDate)).toStrictEqual(
+        mockRankings,
+      );
       expect(service.getRankingBetweenDates).toHaveBeenCalledWith(
         fromDate,
         toDate,
@@ -72,9 +72,9 @@ describe('RankingController', () => {
         .spyOn(service, 'getRankingBetweenDates')
         .mockResolvedValue(mockRankings);
 
-      const result = await controller.getRanking(undefined, undefined);
-
-      expect(result).toEqual(mockRankings);
+      expect(await controller.getRanking(undefined, undefined)).toStrictEqual(
+        mockRankings,
+      );
       expect(service.getRankingBetweenDates).toHaveBeenCalledWith(
         undefined,
         undefined,
@@ -86,7 +86,7 @@ describe('RankingController', () => {
 
       const result = await controller.getRanking('2024-01-01', '2024-01-31');
 
-      expect(result).toEqual([]);
+      expect(result).toStrictEqual([]);
       expect(service.getRankingBetweenDates).toHaveBeenCalledTimes(1);
     });
 
@@ -107,9 +107,9 @@ describe('RankingController', () => {
         .spyOn(service, 'getRankingBetweenDates')
         .mockResolvedValue(mockRankings);
 
-      const result = await controller.getRanking(fromDate, undefined);
-
-      expect(result).toEqual(mockRankings);
+      expect(await controller.getRanking(fromDate, undefined)).toStrictEqual(
+        mockRankings,
+      );
       expect(service.getRankingBetweenDates).toHaveBeenCalledWith(
         fromDate,
         undefined,
@@ -123,9 +123,9 @@ describe('RankingController', () => {
         .spyOn(service, 'getRankingBetweenDates')
         .mockResolvedValue(mockRankings);
 
-      const result = await controller.getRanking(undefined, toDate);
-
-      expect(result).toEqual(mockRankings);
+      expect(await controller.getRanking(undefined, toDate)).toStrictEqual(
+        mockRankings,
+      );
       expect(service.getRankingBetweenDates).toHaveBeenCalledWith(
         undefined,
         toDate,

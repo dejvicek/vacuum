@@ -66,18 +66,14 @@ describe('UserController', () => {
     it('should return an array of users', async () => {
       jest.spyOn(service, 'findAllUsers').mockResolvedValue(mockUsers);
 
-      const result = await controller.getPlayers();
-
-      expect(result).toEqual(mockUsers);
+      expect(await controller.getPlayers()).toStrictEqual(mockUsers);
       expect(service.findAllUsers).toHaveBeenCalledTimes(1);
     });
 
     it('should return empty array when no users exist', async () => {
       jest.spyOn(service, 'findAllUsers').mockResolvedValue([]);
 
-      const result = await controller.getPlayers();
-
-      expect(result).toEqual([]);
+      expect(await controller.getPlayers()).toStrictEqual([]);
       expect(service.findAllUsers).toHaveBeenCalledTimes(1);
     });
 
@@ -163,8 +159,8 @@ describe('UserController', () => {
 
       const result = await controller.getPlayers();
 
-      expect(result[0]).toEqual(mockUsers[0]);
-      expect(result[1]).toEqual(mockUsers[1]);
+      expect(result[0]).toStrictEqual(mockUsers[0]);
+      expect(result[1]).toStrictEqual(mockUsers[1]);
       expect(JSON.stringify(result)).toBe(JSON.stringify(mockUsers));
     });
   });

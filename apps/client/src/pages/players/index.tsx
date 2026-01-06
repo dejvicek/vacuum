@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { usePlayersQuery } from '@/hooks/usePlayersQuery.ts';
+import { usePlayersQuery } from '@/hooks/usePlayersQuery';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from '@/components/data-table';
 import { getColumns } from './columns';

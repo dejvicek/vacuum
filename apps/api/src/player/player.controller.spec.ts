@@ -51,18 +51,14 @@ describe('PlayerController', () => {
     it('should return an array of players', async () => {
       jest.spyOn(service, 'getPlayers').mockResolvedValue(mockPlayers);
 
-      const result = await controller.getPlayers();
-
-      expect(result).toEqual(mockPlayers);
+      expect(await controller.getPlayers()).toStrictEqual(mockPlayers);
       expect(service.getPlayers).toHaveBeenCalled();
     });
 
     it('should return empty array when no players exist', async () => {
       jest.spyOn(service, 'getPlayers').mockResolvedValue([]);
 
-      const result = await controller.getPlayers();
-
-      expect(result).toEqual([]);
+      expect(await controller.getPlayers()).toStrictEqual([]);
       expect(service.getPlayers).toHaveBeenCalledTimes(1);
     });
 
@@ -90,7 +86,7 @@ describe('PlayerController', () => {
 
       const result = await controller.getPlayers();
 
-      expect(result).toEqual(playersWithNull);
+      expect(result).toStrictEqual(playersWithNull);
       expect(result[0].last_name).toBeNull();
     });
   });

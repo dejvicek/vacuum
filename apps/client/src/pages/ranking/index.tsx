@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRankingQuery } from '@/hooks/useRankingQuery.ts';
+import { useRankingQuery } from '@/hooks/useRankingQuery';
 import { getColumns } from './columns';
 import { DataTable } from '@/components/data-table';
 
