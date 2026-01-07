@@ -13,7 +13,11 @@ export class IsUsernameUniqueConstraint implements ValidatorConstraintInterface 
   constructor(private readonly userService: UserService) {}
 
   async validate(username: string): Promise<boolean> {
-    const existingUsers = await this.userService.findByUsername(username);
+    const normalized =
+      typeof username === 'string' ? username.trim().toLowerCase() : username;
+    const existingUsers = await this.userService.findByUsername(
+      normalized as string,
+    );
     return existingUsers.length === 0;
   }
 

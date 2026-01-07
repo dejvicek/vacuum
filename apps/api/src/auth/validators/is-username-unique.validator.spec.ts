@@ -60,10 +60,8 @@ describe('IsUsernameUniqueConstraint', () => {
       ];
       mockUserService.findByUsername.mockResolvedValue(users);
 
-      const result = await validator.validate(username);
-
       expect(userService.findByUsername).toHaveBeenCalledWith(username);
-      expect(result).toBe(false);
+      expect(await validator.validate(username)).toBe(false);
     });
   });
 

@@ -31,17 +31,18 @@ describe('AuthController', () => {
   describe('signup', () => {
     it('should call authService.signup and return AuthResponseDto', async () => {
       const signupRequestDto: SignupRequestDto = {
-        username: 'testuser',
-        password: 'password123',
-      };
+        username: '  TestUser  ',
+        password: '  password123  ',
+      } as unknown as SignupRequestDto;
 
       const expectedResponse: AuthResponseDto = {
         accessToken: 'test_token',
         user: { id: 1, username: 'testuser' },
-      };
+      } as unknown as AuthResponseDto;
 
       mockAuthService.signup.mockResolvedValue(expectedResponse);
 
+      expect(mockAuthService.signup).not.toHaveBeenCalled();
       expect(mockAuthService.signup).toHaveBeenCalledWith(signupRequestDto);
       expect(await authController.signup(signupRequestDto)).toStrictEqual(
         expectedResponse,
@@ -52,17 +53,18 @@ describe('AuthController', () => {
   describe('signin', () => {
     it('should call authService.signin and return AuthResponseDto', async () => {
       const authRequestDto: AuthRequestDto = {
-        username: 'testuser',
-        password: 'password123',
-      };
+        username: '  TestUser  ',
+        password: '  password123  ',
+      } as unknown as AuthRequestDto;
 
       const expectedResponse: AuthResponseDto = {
         accessToken: 'test_token',
         user: { id: 1, username: 'testuser' },
-      };
+      } as unknown as AuthResponseDto;
 
       mockAuthService.signin.mockResolvedValue(expectedResponse);
 
+      expect(mockAuthService.signin).not.toHaveBeenCalled();
       expect(mockAuthService.signin).toHaveBeenCalledWith(authRequestDto);
       expect(await authController.signin(authRequestDto)).toStrictEqual(
         expectedResponse,
