@@ -5,6 +5,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UserModule } from '../user/user.module';
+import { IsUsernameUniqueConstraint } from './validators/is-username-unique.validator';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { UserModule } from '../user/user.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, IsUsernameUniqueConstraint],
   exports: [JwtModule, PassportModule],
 })
 export class AuthModule {}

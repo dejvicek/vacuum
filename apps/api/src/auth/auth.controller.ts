@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthRequestDto } from './dto/auth-request.dto';
+import { SignupRequestDto } from './dto/signup-request.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
@@ -17,9 +18,9 @@ export class AuthController {
 
   @Post('/signup')
   async signup(
-    @Body() authRequestDto: AuthRequestDto,
+    @Body() signupRequestDto: SignupRequestDto,
   ): Promise<AuthResponseDto> {
-    return this.authService.signup(authRequestDto);
+    return this.authService.signup(signupRequestDto);
   }
 
   @Post('/signin')

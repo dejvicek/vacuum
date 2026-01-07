@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { AuthRequestDto } from './dto/auth-request.dto';
+import { SignupRequestDto } from './dto/signup-request.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 
 describe('AuthController', () => {
@@ -29,7 +30,7 @@ describe('AuthController', () => {
 
   describe('signup', () => {
     it('should call authService.signup and return AuthResponseDto', async () => {
-      const authRequestDto: AuthRequestDto = {
+      const signupRequestDto: SignupRequestDto = {
         username: 'testuser',
         password: 'password123',
       };
@@ -41,8 +42,8 @@ describe('AuthController', () => {
 
       mockAuthService.signup.mockResolvedValue(expectedResponse);
 
-      expect(mockAuthService.signup).toHaveBeenCalledWith(authRequestDto);
-      expect(await authController.signup(authRequestDto)).toStrictEqual(
+      expect(mockAuthService.signup).toHaveBeenCalledWith(signupRequestDto);
+      expect(await authController.signup(signupRequestDto)).toStrictEqual(
         expectedResponse,
       );
     });

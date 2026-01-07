@@ -1,11 +1,8 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { AuthRequestDto } from './dto/auth-request.dto';
+import { SignupRequestDto } from './dto/signup-request.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
 import * as bcrypt from 'bcrypt';
@@ -17,15 +14,7 @@ export class AuthService {
     private readonly userService: UserService,
   ) {}
 
-  async signup(payload: AuthRequestDto): Promise<AuthResponseDto> {
-    const existingUser = await this.userService.findByUsername(
-      payload.username,
-    );
-
-    if (existingUser.length > 0) {
-      throw new BadRequestException('Username already exists');
-    }
-
+  async signup(payload: SignupRequestDto): Promise<AuthResponseDto> {
     const hashedPassword = await bcrypt.hash(payload.password, 10);
 
     const [createdUser] = await this.userService.createUser(

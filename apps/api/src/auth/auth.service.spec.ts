@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
@@ -43,33 +43,21 @@ describe('AuthService', () => {
     const newUser = { id: 1, username: 'testuser', password: hashedPassword };
 
     it('should successfully register a new user', async () => {
-      mockUserService.findByUsername.mockResolvedValue([]);
       (bcrypt.hash as jest.Mock).mockResolvedValue(hashedPassword);
       mockUserService.createUser.mockResolvedValue([newUser]);
       mockJwtService.sign.mockReturnValue('test_token');
 
-      expect(mockUserService.findByUsername).toHaveBeenCalledWith(
-        authRequestDto.username,
-      );
+      const result = await authService.signup(authRequestDto);
+
       expect(bcrypt.hash).toHaveBeenCalledWith(authRequestDto.password, 10);
       expect(mockUserService.createUser).toHaveBeenCalledWith(
         authRequestDto.username,
         hashedPassword,
       );
-      expect(await authService.signup(authRequestDto)).toStrictEqual({
+      expect(result).toStrictEqual({
         accessToken: 'test_token',
         user: { id: 1, username: 'testuser' },
       });
-    });
-
-    it('should throw BadRequestException when username already exists', async () => {
-      mockUserService.findByUsername.mockResolvedValue([newUser]);
-
-      await expect(authService.signup(authRequestDto)).rejects.toThrow(
-        BadRequestException,
-      );
-      expect(bcrypt.hash).not.toHaveBeenCalled();
-      expect(mockUserService.createUser).not.toHaveBeenCalled();
     });
   });
 
@@ -83,6 +71,8 @@ describe('AuthService', () => {
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       mockJwtService.sign.mockReturnValue('test_token');
 
+      const result = await authService.signin(authRequestDto);
+
       expect(mockUserService.findByUsername).toHaveBeenCalledWith(
         authRequestDto.username,
       );
@@ -90,7 +80,7 @@ describe('AuthService', () => {
         authRequestDto.password,
         hashedPassword,
       );
-      expect(await authService.signin(authRequestDto)).toStrictEqual({
+      expect(result).toStrictEqual({
         accessToken: 'test_token',
         user: { id: 1, username: 'testuser' },
       });
