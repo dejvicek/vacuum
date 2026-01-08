@@ -12,7 +12,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <div className="container max-w-[80rem]">
+        <div className="container relative  overflow-hidden mx-auto max-w-7xl">
           <Routes>
             <Route element={<Layout />}>
               <Route index element={<div>Home</div>} />
