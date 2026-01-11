@@ -1,43 +1,25 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
-import { useContainer } from 'class-validator';
+import { INestApplication } from '@nestjs/common';
+import { initializeE2eApp, cleanupE2eApp } from './helpers/e2e-setup';
+import { faker } from '@faker-js/faker';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-
-    // Enable DI for custom validators BEFORE init
-    useContainer(app.select(AppModule), { fallbackOnErrors: true });
-
-    // Enable validation pipe
-    app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
-        transform: true,
-      }),
-    );
-
-    app.setGlobalPrefix('api');
-
-    await app.init();
+    app = await initializeE2eApp({
+      useValidationPipe: true,
+      setApiPrefix: true,
+    });
   });
 
   afterEach(async () => {
-    await app.close();
+    await cleanupE2eApp(app);
   });
 
   describe('/auth/signup (POST)', () => {
     it('should successfully register a new user', async () => {
-      const uniqueUsername = `user${Date.now() % 100000}`; // Ensures max 9 chars total
+      const uniqueUsername = faker.internet.username().slice(0, 10);
       const signupDto = {
         username: uniqueUsername,
         password: 'password123',
@@ -47,66 +29,70 @@ describe('AuthController (e2e)', () => {
         .post('/api/auth/signup')
         .send(signupDto);
 
-      // Even if it fails due to DB, it should not be a validation error (400)
-      expect([200, 201, 500]).toContain(response.status);
+      expect(response.status).toStrictEqual(201);
+      expect(response.body).toHaveProperty('user');
+      expect(response.body).toHaveProperty('accessToken');
     });
 
     it('should fail with validation error when username already exists', async () => {
-      const uniqueUsername = 'dup'; // Use short username to avoid DB character limit
+      const uniqueUsername = faker.internet.username().slice(0, 10);
       const signupDto = {
         username: uniqueUsername,
         password: 'password123',
       };
 
-      // First registration
-      const firstResponse = await request(app.getHttpServer())
+      await request(app.getHttpServer())
+        .post('/api/auth/signup')
+        .send(signupDto)
+        .expect(201);
+
+      const response = await request(app.getHttpServer())
         .post('/api/auth/signup')
         .send(signupDto);
 
-      // Only proceed if first registration succeeded
-      if (firstResponse.status === 200 || firstResponse.status === 201) {
-        // Second registration with same username should fail with 400
-        const response = await request(app.getHttpServer())
-          .post('/api/auth/signup')
-          .send(signupDto);
+      expect(response.status).toStrictEqual(400);
+      expect(response.body.statusCode).toStrictEqual(400);
+      expect(response.body.error).toStrictEqual('Bad Request');
 
-        // Should be 400 Bad Request due to validation
-        expect(response.status).toBe(400);
-        expect(response.body).toHaveProperty('message');
-      } else {
-        // If DB is not working properly, skip this test
-        expect(true).toBe(true);
-      }
+      expect(response.body.message[0]).toContain('already exists');
     });
 
     it('should fail when username is too short', async () => {
       const signupDto = {
-        username: 'ab', // Less than 3 characters
+        username: 'ab',
         password: 'password123',
       };
 
       const response = await request(app.getHttpServer())
         .post('/api/auth/signup')
-        .send(signupDto)
-        .expect(400);
+        .send(signupDto);
 
-      expect(response.body).toHaveProperty('message');
-      expect(Array.isArray(response.body.message)).toBe(true);
+      expect(response.status).toStrictEqual(400);
+      expect(response.body.statusCode).toStrictEqual(400);
+      expect(response.body.error).toStrictEqual('Bad Request');
+
+      expect(response.body.message).toContain(
+        'username must be longer than or equal to 3 characters',
+      );
     });
 
     it('should fail when password is too short', async () => {
       const signupDto = {
         username: 'validuser',
-        password: 'short', // Less than 8 characters
+        password: 'short',
       };
 
       const response = await request(app.getHttpServer())
         .post('/api/auth/signup')
-        .send(signupDto)
-        .expect(400);
+        .send(signupDto);
 
-      expect(response.body).toHaveProperty('message');
-      expect(Array.isArray(response.body.message)).toBe(true);
+      expect(response.status).toStrictEqual(400);
+      expect(response.body.statusCode).toStrictEqual(400);
+      expect(response.body.error).toStrictEqual('Bad Request');
+
+      expect(response.body.message).toContain(
+        'password must be longer than or equal to 8 characters',
+      );
     });
 
     it('should fail when username is missing', async () => {
@@ -116,11 +102,12 @@ describe('AuthController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/auth/signup')
-        .send(signupDto)
-        .expect(400);
+        .send(signupDto);
 
-      expect(response.body).toHaveProperty('message');
-      expect(Array.isArray(response.body.message)).toBe(true);
+      expect(response.status).toStrictEqual(400);
+      expect(response.body.statusCode).toStrictEqual(400);
+      expect(response.body.error).toStrictEqual('Bad Request');
+      expect(response.body.message).toContain('username should not be empty');
     });
 
     it('should fail when password is missing', async () => {
@@ -130,15 +117,34 @@ describe('AuthController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/auth/signup')
-        .send(signupDto)
-        .expect(400);
+        .send(signupDto);
 
-      expect(response.body).toHaveProperty('message');
-      expect(Array.isArray(response.body.message)).toBe(true);
+      expect(response.status).toStrictEqual(400);
+      expect(response.body.statusCode).toStrictEqual(400);
+      expect(response.body.error).toStrictEqual('Bad Request');
+      expect(response.body.message).toContain('password should not be empty');
     });
 
-    it('normalizes username (trim+lowercase) and password (trim)', async () => {
-      const uniqueUsername = `  mix${Date.now() % 1000}  `; // Short enough after trim
+    it('should normalize username by trimming and lowercasing', async () => {
+      const uniqueUsername = faker.internet.username().slice(0, 10);
+      const signupDto = {
+        username: `  ${uniqueUsername.toUpperCase()}  `,
+        password: 'password123',
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/signup')
+        .send(signupDto);
+
+      expect(response.status).toStrictEqual(201);
+      expect(response.body.user.username).toStrictEqual(
+        uniqueUsername.toLowerCase(),
+      );
+      expect(response.body).toHaveProperty('accessToken');
+    });
+
+    it('should normalize password by trimming', async () => {
+      const uniqueUsername = faker.internet.username().slice(0, 10);
       const signupDto = {
         username: uniqueUsername,
         password: '  Passw0rd!  ',
@@ -148,10 +154,12 @@ describe('AuthController (e2e)', () => {
         .post('/api/auth/signup')
         .send(signupDto);
 
-      expect([200, 201, 500]).toContain(response.status);
+      expect(response.status).toStrictEqual(201);
+      expect(response.body).toHaveProperty('user');
+      expect(response.body).toHaveProperty('accessToken');
     });
 
-    it('fails when username exceeds max length (10)', async () => {
+    it('should fail when username exceeds max length', async () => {
       const signupDto = {
         username: 'a'.repeat(11),
         password: 'password123',
@@ -159,83 +167,94 @@ describe('AuthController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/auth/signup')
-        .send(signupDto)
-        .expect(400);
+        .send(signupDto);
 
-      expect(response.body).toHaveProperty('message');
+      expect(response.status).toStrictEqual(400);
+      expect(response.body.statusCode).toStrictEqual(400);
+      expect(response.body.error).toStrictEqual('Bad Request');
+
+      expect(response.body.message).toContain(
+        'username must be shorter than or equal to 10 characters',
+      );
     });
 
-    it('normalizes username by trimming and lowercasing', async () => {
+    it('should fail when password is empty string', async () => {
       const signupDto = {
-        username: '  User  ',
-        password: 'password123',
+        username: 'validuser',
+        password: '',
       };
 
       const response = await request(app.getHttpServer())
         .post('/api/auth/signup')
-        .send(signupDto)
-        .expect([200, 201, 500]);
+        .send(signupDto);
 
-      // Transform normalizes whitespace, so this should succeed
-      if (response.status === 201 || response.status === 200) {
-        expect(response.body).toHaveProperty('user');
-      }
+      expect(response.status).toStrictEqual(400);
+      expect(response.body.statusCode).toStrictEqual(400);
+      expect(response.body.error).toStrictEqual('Bad Request');
+
+      expect(response.body.message).toContain('password should not be empty');
     });
 
-    it('fails when password is empty or whitespace-only', async () => {
-      const cases = ['', '   '];
+    it('should fail when password is whitespace only', async () => {
+      const signupDto = {
+        username: 'validuser',
+        password: '   ',
+      };
 
-      for (const pwd of cases) {
-        const response = await request(app.getHttpServer())
-          .post('/api/auth/signup')
-          .send({ username: 'validuser', password: pwd })
-          .expect(400);
+      const response = await request(app.getHttpServer())
+        .post('/api/auth/signup')
+        .send(signupDto);
 
-        expect(response.body).toHaveProperty('message');
-      }
+      expect(response.status).toStrictEqual(400);
+      expect(response.body.statusCode).toStrictEqual(400);
+      expect(response.body.error).toStrictEqual('Bad Request');
+      expect(response.body.message).toContain('password should not be empty');
     });
   });
 
   describe('/auth/signin (POST)', () => {
     it('should successfully sign in an existing user', async () => {
-      const uniqueUsername = `sig${Date.now() % 10000}`; // Max 8 chars
+      const uniqueUsername = faker.internet.username().slice(0, 10);
       const password = 'password123';
 
-      // First register the user
       await request(app.getHttpServer())
         .post('/api/auth/signup')
-        .send({ username: uniqueUsername, password });
+        .send({ username: uniqueUsername, password })
+        .expect(201);
 
-      // Then sign in - may fail due to DB, but shouldn't be validation error
       const response = await request(app.getHttpServer())
         .post('/api/auth/signin')
         .send({ username: uniqueUsername, password });
 
-      expect([200, 201, 401, 500]).toContain(response.status);
+      expect(response.status).toStrictEqual(201);
+      expect(response.body).toHaveProperty('user');
+      expect(response.body).toHaveProperty('accessToken');
     });
 
     it('should fail when credentials are invalid', async () => {
       const signinDto = {
-        username: 'noexist', // 7 chars, valid length
-        password: 'wrongpassword', // valid password length
+        username: 'noexist',
+        password: 'wrongpassword',
       };
 
       const response = await request(app.getHttpServer())
         .post('/api/auth/signin')
-        .send(signinDto)
-        .expect(401);
+        .send(signinDto);
 
-      expect(response.body).toHaveProperty('message');
-      expect(response.body.message).toBe('Invalid credentials');
+      expect(response.status).toStrictEqual(401);
+      expect(response.body.statusCode).toStrictEqual(401);
+      expect(response.body.error).toStrictEqual('Unauthorized');
+      expect(response.body.message).toStrictEqual('Invalid credentials');
     });
 
-    it('normalizes username and password on signin', async () => {
-      const uniqueUsername = `sig${Date.now() % 10000}`; // Max 8 chars
+    it('should normalize username and password on signin', async () => {
+      const uniqueUsername = faker.internet.username().slice(0, 10);
       const password = 'password123';
 
       await request(app.getHttpServer())
         .post('/api/auth/signup')
-        .send({ username: uniqueUsername, password });
+        .send({ username: uniqueUsername, password })
+        .expect(201);
 
       const response = await request(app.getHttpServer())
         .post('/api/auth/signin')
@@ -244,18 +263,23 @@ describe('AuthController (e2e)', () => {
           password: `  ${password}  `,
         });
 
-      // Should either succeed (200, 201) or fail auth (401) or DB error (500)
-      // Should NOT be 400 (validation error) since Transform normalizes whitespace
-      expect([200, 201, 401, 500]).toContain(response.status);
+      expect(response.status).toStrictEqual(201);
+      expect(response.body).toHaveProperty('user');
+      expect(response.body).toHaveProperty('accessToken');
     });
 
-    it('fails signin when password is too short', async () => {
+    it('should fail signin when password is too short', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/auth/signin')
-        .send({ username: 'validuser', password: 'short' })
-        .expect(400);
+        .send({ username: 'validuser', password: 'short' });
 
-      expect(response.body).toHaveProperty('message');
+      expect(response.status).toStrictEqual(400);
+      expect(response.body.statusCode).toStrictEqual(400);
+      expect(response.body.error).toStrictEqual('Bad Request');
+
+      expect(response.body.message).toContain(
+        'password must be longer than or equal to 8 characters',
+      );
     });
   });
 });

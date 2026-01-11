@@ -35,6 +35,13 @@ docker ps | grep postgres_test_db
 # Test připojení k test DB
 docker compose exec test-db psql -U postgres -d vacuum_test -c "SELECT 1;"
 ```
+### 3. Spuštění migrací
+
+```bash
+# Spustí definované migrace na testovací databázi
+POSTGRES_DB_URL=postgresql://postgres:postgres@localhost:5556/vacuum_test pnpm drizzle:migrate
+```
+
 
 ## Running E2E Tests
 
