@@ -1,8 +1,12 @@
-import { createContext, Dispatch, SetStateAction, useContext } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext } from 'react';
 
 export type SidebarContextType = {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  handleCloseSidebar: () => void;
+  sidebarTitle: string;
+  sidebarContent: ReactNode | null;
+  openSidebar: (title: string, content: ReactNode) => void;
 };
 
 export const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
