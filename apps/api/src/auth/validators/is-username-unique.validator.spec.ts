@@ -35,8 +35,10 @@ describe('IsUsernameUniqueConstraint', () => {
       const username = 'newuser';
       mockUserService.findByUsername.mockResolvedValue([]);
 
+      const result = await validator.validate(username);
+
       expect(userService.findByUsername).toHaveBeenCalledWith(username);
-      expect(await validator.validate(username)).toBe(true);
+      expect(result).toBe(true);
     });
 
     it('should return false when username already exists', async () => {
@@ -48,8 +50,10 @@ describe('IsUsernameUniqueConstraint', () => {
       };
       mockUserService.findByUsername.mockResolvedValue([existingUser]);
 
+      const result = await validator.validate(username);
+
       expect(userService.findByUsername).toHaveBeenCalledWith(username);
-      expect(await validator.validate(username)).toBe(false);
+      expect(result).toBe(false);
     });
 
     it('should return false when multiple users with same username exist', async () => {
@@ -60,8 +64,10 @@ describe('IsUsernameUniqueConstraint', () => {
       ];
       mockUserService.findByUsername.mockResolvedValue(users);
 
+      const result = await validator.validate(username);
+
       expect(userService.findByUsername).toHaveBeenCalledWith(username);
-      expect(await validator.validate(username)).toBe(false);
+      expect(result).toBe(false);
     });
   });
 

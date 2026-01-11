@@ -5,7 +5,7 @@ import { AuthRequestDto } from './dto/auth-request.dto';
 import { SignupRequestDto } from './dto/signup-request.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
-import * as bcrypt from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
   ) {}
 
   async signup(payload: SignupRequestDto): Promise<AuthResponseDto> {
-    const hashedPassword = await bcrypt.hash(payload.password, 10);
+    const hashedPassword = await hash(payload.password, 10);
 
     const [createdUser] = await this.userService.createUser(
       payload.username,
@@ -38,10 +38,7 @@ export class AuthService {
     }
 
     const user = users[0];
-    const isPasswordValid = await bcrypt.compare(
-      payload.password,
-      user.password,
-    );
+    const isPasswordValid = await compare(payload.password, user.password);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid credentials');

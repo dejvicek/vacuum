@@ -12,7 +12,7 @@ import { IsUsernameUniqueConstraint } from './validators/is-username-unique.vali
     UserModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'your-secret-key',
+      secret: AuthModule.getJwtSecret(),
       signOptions: { expiresIn: '7d' },
     }),
   ],
@@ -20,4 +20,14 @@ import { IsUsernameUniqueConstraint } from './validators/is-username-unique.vali
   providers: [AuthService, JwtStrategy, IsUsernameUniqueConstraint],
   exports: [JwtModule, PassportModule],
 })
-export class AuthModule {}
+export class AuthModule {
+  static getJwtSecret(): string {
+    const secret = process.env.JWT_SECRET;
+
+    if (!secret || secret.trim() === '') {
+      throw new Error('JWT_SECRET environment variable is not set');
+    }
+
+    return secret;
+  }
+}

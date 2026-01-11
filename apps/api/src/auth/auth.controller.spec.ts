@@ -42,11 +42,10 @@ describe('AuthController', () => {
 
       mockAuthService.signup.mockResolvedValue(expectedResponse);
 
-      expect(mockAuthService.signup).not.toHaveBeenCalled();
+      const result = await authController.signup(signupRequestDto);
+
       expect(mockAuthService.signup).toHaveBeenCalledWith(signupRequestDto);
-      expect(await authController.signup(signupRequestDto)).toStrictEqual(
-        expectedResponse,
-      );
+      expect(result).toStrictEqual(expectedResponse);
     });
   });
 
@@ -64,11 +63,10 @@ describe('AuthController', () => {
 
       mockAuthService.signin.mockResolvedValue(expectedResponse);
 
-      expect(mockAuthService.signin).not.toHaveBeenCalled();
+      const result = await authController.signin(authRequestDto);
+
       expect(mockAuthService.signin).toHaveBeenCalledWith(authRequestDto);
-      expect(await authController.signin(authRequestDto)).toStrictEqual(
-        expectedResponse,
-      );
+      expect(result).toStrictEqual(expectedResponse);
     });
   });
 });
