@@ -15,4 +15,8 @@ describe('UserService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should have findByUsername method', () => {
+    expect(service.findByUsername).toBeDefined();
+  });
 });

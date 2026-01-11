@@ -17,6 +17,13 @@ export class UserService {
     return db.select().from(usersTable).where(eq(usersTable.id, id));
   }
 
+  async findByUsername(username: string) {
+    return db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.username, username));
+  }
+
   async updateUser(id: number, username: string, password: string) {
     return db
       .update(usersTable)
