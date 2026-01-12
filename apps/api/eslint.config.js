@@ -1,7 +1,7 @@
-import tseslint from 'typescript-eslint';
-import prettierPlugin from 'eslint-plugin-prettier';
+const tseslint = require('typescript-eslint');
+const prettierPlugin = require('eslint-plugin-prettier');
 
-export default [
+module.exports = [
   {
     ignores: [
       '.eslintrc.js',
@@ -62,4 +62,3 @@ export default [
     },
   },
 ];
-
