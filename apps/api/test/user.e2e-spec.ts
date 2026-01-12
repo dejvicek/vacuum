@@ -2,7 +2,7 @@ import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { initializeE2eApp, cleanupE2eApp } from './helpers/e2e-setup';
 
-describe('AppController (e2e)', () => {
+describe('UserController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -15,10 +15,13 @@ describe('AppController (e2e)', () => {
     await cleanupE2eApp(app);
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/api/v1/public/')
-      .expect(200)
-      .expect('Hello World!');
+  describe('GET /api/v1/public/user', () => {
+    it('should return an array of users', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/api/v1/public/user')
+        .expect(200);
+
+      expect(Array.isArray(response.body)).toBe(true);
+    });
   });
 });

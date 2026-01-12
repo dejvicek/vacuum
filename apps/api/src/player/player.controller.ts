@@ -4,7 +4,7 @@ import { PlayerService } from './player.service';
 import { Player } from './player.types';
 
 @ApiTags('player')
-@Controller('player')
+@Controller('public/player')
 export class PlayerController {
   private readonly logger = new Logger(PlayerController.name);
 

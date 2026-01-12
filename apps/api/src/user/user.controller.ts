@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './users.types';
 
-@Controller('user')
+@Controller('public/user')
 export class UserController {
   private readonly logger = new Logger(UserController.name);
 
