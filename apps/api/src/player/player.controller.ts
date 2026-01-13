@@ -1,8 +1,7 @@
 import { Controller, Get, Logger } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PlayerService } from './player.service';
-import { Player } from './player.types';
-
+import { Player } from '@shared-types/Player/player.types';
 @ApiTags('player')
 @Controller('public/player')
 export class PlayerController {

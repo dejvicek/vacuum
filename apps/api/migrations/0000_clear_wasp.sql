@@ -3,6 +3,7 @@ CREATE TABLE "player" (
 	"nick_name" varchar(255) NOT NULL,
 	"first_name" varchar(255),
 	"last_name" varchar(255),
+	"created_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "player_nick_name_unique" UNIQUE("nick_name")
 );
 --> statement-breakpoint

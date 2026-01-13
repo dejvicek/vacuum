@@ -3,5 +3,5 @@ export interface Player {
   nick_name: string;
   first_name: string | null;
   last_name: string | null;
-  created_at: Date;
+  created_at: string;
 }

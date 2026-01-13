@@ -18,6 +18,7 @@ export const playersTable = pgTable('player', {
   nick_name: varchar({ length: 255 }).notNull().unique(),
   first_name: varchar({ length: 255 }),
   last_name: varchar({ length: 255 }),
+  created_at: timestamp().defaultNow().notNull(),
 });
 
 export const rankingsTable = pgTable('rankings', {

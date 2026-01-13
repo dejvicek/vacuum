@@ -43,12 +43,14 @@ describe('PlayerController (e2e)', () => {
             nick_name: 'john_doe',
             first_name: 'John',
             last_name: 'Doe',
+            created_at: expect.any(String),
           }),
           expect.objectContaining({
             id: expect.any(Number),
             nick_name: 'kuba',
             first_name: 'Jakub',
             last_name: 'Novák',
+            created_at: expect.any(String),
           }),
         ]),
       );

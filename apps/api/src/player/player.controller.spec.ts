@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PlayerController } from './player.controller';
 import { PlayerService } from './player.service';
-import { Player } from './player.types';
+import { Player } from '@shared-types/Player/player.types';
 
 describe('PlayerController', () => {
   let controller: PlayerController;
@@ -13,12 +13,14 @@ describe('PlayerController', () => {
       nick_name: 'player1',
       first_name: 'John',
       last_name: 'Doe',
+      created_at: new Date().toISOString(),
     },
     {
       id: 2,
       nick_name: 'player2',
       first_name: 'Jane',
       last_name: 'Smith',
+      created_at: new Date().toISOString(),
     },
   ];
 
@@ -79,6 +81,7 @@ describe('PlayerController', () => {
           nick_name: 'player3',
           first_name: 'Bob',
           last_name: null,
+          created_at: new Date().toISOString(),
         },
       ];
 
