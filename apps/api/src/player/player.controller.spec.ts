@@ -3,6 +3,7 @@ import { PlayerController } from './player.controller';
 import { PlayerService } from './player.service';
 import { Player } from '@shared-types/Player/player.types';
 import { CreatePlayerDto } from './dto/create-player.dto';
+import { ConflictException } from '@nestjs/common';
 
 describe('PlayerController', () => {
   let controller: PlayerController;
@@ -128,6 +129,21 @@ describe('PlayerController', () => {
 
       await expect(controller.savePlayer(createPlayerDto)).rejects.toThrow(
         'Database error',
+      );
+      expect(service.savePlayer).toHaveBeenCalledWith(createPlayerDto);
+    });
+
+    it('should handle conflict errors from service', async () => {
+      const createPlayerDto: CreatePlayerDto = {
+        nick_name: 'existingplayer',
+        first_name: null,
+        last_name: null,
+      };
+      const error = new ConflictException('Nickname already exists');
+      jest.spyOn(service, 'savePlayer').mockRejectedValue(error);
+
+      await expect(controller.savePlayer(createPlayerDto)).rejects.toThrow(
+        ConflictException,
       );
       expect(service.savePlayer).toHaveBeenCalledWith(createPlayerDto);
     });

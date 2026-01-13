@@ -25,6 +25,14 @@ export class PlayerController {
     status: 201,
     description: 'The player has been successfully created.',
   })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request. Validation failed or invalid input.',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Conflict. Player with this nickname already exists.',
+  })
   async savePlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<Player> {
     this.logger.log(
       `Saving player with nickname: ${createPlayerDto.nick_name}`,

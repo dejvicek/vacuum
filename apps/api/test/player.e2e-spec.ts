@@ -82,7 +82,6 @@ describe('PlayerController (e2e)', () => {
         }),
       );
 
-      // Verify it's actually in the database
       const dbPlayers = await db
         .select()
         .from(playersTable)
@@ -97,10 +96,12 @@ describe('PlayerController (e2e)', () => {
         last_name: 'Nick',
       };
 
-      await request(app.getHttpServer())
+      const response = await request(app.getHttpServer())
         .post('/api/v1/player')
         .send(playerData)
         .expect(400);
+
+      expect(response.body.message).toContain('nick_name should not be empty');
     });
 
     it('should allow null first_name and last_name', async () => {
@@ -120,6 +121,83 @@ describe('PlayerController (e2e)', () => {
           nick_name: 'minimal_player',
           first_name: null,
           last_name: null,
+        }),
+      );
+    });
+
+    it('should return 409 when nick_name already exists', async () => {
+      const playerData = {
+        nick_name: 'existing_player',
+        first_name: 'Existing',
+        last_name: 'Player',
+      };
+
+      await request(app.getHttpServer())
+        .post('/api/v1/player')
+        .send(playerData)
+        .expect(201);
+
+      const response = await request(app.getHttpServer())
+        .post('/api/v1/player')
+        .send(playerData)
+        .expect(409);
+
+      expect(response.body.message).toContain(
+        'Player with nickname "existing_player" already exists',
+      );
+    });
+
+    it('should return 400 when nick_name is too short', async () => {
+      const playerData = {
+        nick_name: 'ab',
+        first_name: 'Short',
+        last_name: 'Nick',
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/api/v1/player')
+        .send(playerData)
+        .expect(400);
+
+      expect(response.body.message).toContain(
+        'nick_name must be longer than or equal to 3 characters',
+      );
+    });
+
+    it('should return 400 when nick_name contains invalid characters', async () => {
+      const playerData = {
+        nick_name: 'player space',
+        first_name: 'Invalid',
+        last_name: 'Nick',
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/api/v1/player')
+        .send(playerData)
+        .expect(400);
+
+      expect(response.body.message).toContain(
+        'nick_name can only contain letters, numbers and underscores',
+      );
+    });
+
+    it('should trim string values', async () => {
+      const playerData = {
+        nick_name: '  trimmed_player  ',
+        first_name: '  John  ',
+        last_name: '  Doe  ',
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/api/v1/player')
+        .send(playerData)
+        .expect(201);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          nick_name: 'trimmed_player',
+          first_name: 'John',
+          last_name: 'Doe',
         }),
       );
     });

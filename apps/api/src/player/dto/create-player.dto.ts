@@ -1,15 +1,28 @@
-import { IsString, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  MaxLength,
+  MinLength,
+  Matches,
+} from 'class-validator';
 import { CreatePlayer } from '@shared-types/Player/player.types';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 
 export class CreatePlayerDto implements CreatePlayer {
   @ApiProperty({
     example: 'john_doe',
     description: 'The nickname of the player',
   })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
   @IsNotEmpty()
+  @MinLength(3)
   @MaxLength(255)
+  @Matches(/^[a-zA-Z0-9_]+$/, {
+    message: 'nick_name can only contain letters, numbers and underscores',
+  })
   nick_name: string;
 
   @ApiProperty({
@@ -18,6 +31,7 @@ export class CreatePlayerDto implements CreatePlayer {
     required: false,
     nullable: true,
   })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
   @IsOptional()
   @MaxLength(255)
@@ -29,6 +43,7 @@ export class CreatePlayerDto implements CreatePlayer {
     required: false,
     nullable: true,
   })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
   @IsOptional()
   @MaxLength(255)
