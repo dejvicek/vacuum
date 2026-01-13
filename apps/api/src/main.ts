@@ -29,6 +29,7 @@ async function bootstrap() {
     .setDescription('The Vacuum API description')
     .setVersion('1.0')
     .addTag('vacuum')
+    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, documentFactory);

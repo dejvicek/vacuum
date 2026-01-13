@@ -1,25 +1,25 @@
-import { Body, Controller, Get, Logger, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { PlayerService } from './player.service';
 import { Player } from '@shared-types/Player/player.types';
 import { CreatePlayerDto } from './dto/create-player.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('player')
-@Controller()
-export class PlayerController {
-  private readonly logger = new Logger(PlayerController.name);
+@ApiBearerAuth()
+@Controller('player')
+export class PlayerControllerV1 {
+  private readonly logger = new Logger(PlayerControllerV1.name);
 
   constructor(private readonly playerService: PlayerService) {}
 
-  @Get('public/player')
-  @ApiOperation({ summary: 'Get all players' })
-  @ApiResponse({ status: 200, description: 'Returns all players' })
-  async getPlayers(): Promise<Player[]> {
-    this.logger.log('Fetching all players');
-    return this.playerService.getPlayers();
-  }
-
-  @Post('player')
+  @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Create a new player' })
   @ApiResponse({
     status: 201,
@@ -28,6 +28,10 @@ export class PlayerController {
   @ApiResponse({
     status: 400,
     description: 'Bad Request. Validation failed or invalid input.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized. JWT token is missing or invalid.',
   })
   @ApiResponse({
     status: 409,

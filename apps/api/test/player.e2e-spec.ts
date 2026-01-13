@@ -4,15 +4,35 @@ import { initializeE2eApp, cleanupE2eApp } from './helpers/e2e-setup';
 import { db } from '../src/db';
 import { playersTable } from '../src/db/schema';
 import { sql } from 'drizzle-orm';
+import { faker } from '@faker-js/faker';
 
 describe('PlayerController (e2e)', () => {
   let app: INestApplication;
+  let accessToken: string;
 
   beforeEach(async () => {
     app = await initializeE2eApp({
       setApiPrefix: true,
       useValidationPipe: true,
     });
+
+    const username = faker.internet.username().slice(0, 10);
+    const signupDto = {
+      username,
+      password: 'password123',
+    };
+
+    await request(app.getHttpServer())
+      .post('/api/v1/public/auth/signup')
+      .send(signupDto)
+      .expect(201);
+
+    const signinResponse = await request(app.getHttpServer())
+      .post('/api/v1/public/auth/signin')
+      .send({ username: signupDto.username, password: signupDto.password })
+      .expect(201);
+
+    accessToken = signinResponse.body.accessToken;
   });
 
   afterEach(async () => {
@@ -60,7 +80,20 @@ describe('PlayerController (e2e)', () => {
   });
 
   describe('POST /api/v1/player', () => {
-    it('should create a new player', async () => {
+    it('should return 401 when no token is provided', async () => {
+      const playerData = {
+        nick_name: 'no_token_player',
+        first_name: 'No',
+        last_name: 'Token',
+      };
+
+      await request(app.getHttpServer())
+        .post('/api/v1/player')
+        .send(playerData)
+        .expect(401);
+    });
+
+    it('should create a new player with token', async () => {
       const playerData = {
         nick_name: 'new_player_e2e',
         first_name: 'New',
@@ -69,6 +102,7 @@ describe('PlayerController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/v1/player')
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(playerData)
         .expect(201);
 
@@ -98,6 +132,7 @@ describe('PlayerController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/v1/player')
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(playerData)
         .expect(400);
 
@@ -113,6 +148,7 @@ describe('PlayerController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/v1/player')
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(playerData)
         .expect(201);
 
@@ -134,11 +170,13 @@ describe('PlayerController (e2e)', () => {
 
       await request(app.getHttpServer())
         .post('/api/v1/player')
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(playerData)
         .expect(201);
 
       const response = await request(app.getHttpServer())
         .post('/api/v1/player')
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(playerData)
         .expect(409);
 
@@ -156,6 +194,7 @@ describe('PlayerController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/v1/player')
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(playerData)
         .expect(400);
 
@@ -173,6 +212,7 @@ describe('PlayerController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/v1/player')
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(playerData)
         .expect(400);
 
@@ -190,6 +230,7 @@ describe('PlayerController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/v1/player')
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(playerData)
         .expect(201);
 
