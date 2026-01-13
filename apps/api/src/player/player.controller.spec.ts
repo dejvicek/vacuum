@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PlayerController } from './player.controller';
 import { PlayerService } from './player.service';
 import { Player } from '@shared-types/Player/player.types';
+import { CreatePlayerDto } from './dto/create-player.dto';
 
 describe('PlayerController', () => {
   let controller: PlayerController;
@@ -32,6 +33,7 @@ describe('PlayerController', () => {
           provide: PlayerService,
           useValue: {
             getPlayers: jest.fn(),
+            savePlayer: jest.fn(),
           },
         },
       ],
@@ -91,6 +93,43 @@ describe('PlayerController', () => {
 
       expect(result).toStrictEqual(playersWithNull);
       expect(result[0].last_name).toBeNull();
+    });
+  });
+
+  describe('savePlayer', () => {
+    it('should create and return a player', async () => {
+      const createPlayerDto: CreatePlayerDto = {
+        nick_name: 'newplayer',
+        first_name: 'New',
+        last_name: 'Player',
+      };
+      const createdPlayer: Player = {
+        id: 3,
+        ...createPlayerDto,
+        created_at: new Date().toISOString(),
+      };
+
+      jest.spyOn(service, 'savePlayer').mockResolvedValue(createdPlayer);
+
+      const result = await controller.savePlayer(createPlayerDto);
+
+      expect(result).toStrictEqual(createdPlayer);
+      expect(service.savePlayer).toHaveBeenCalledWith(createPlayerDto);
+    });
+
+    it('should handle service errors', async () => {
+      const createPlayerDto: CreatePlayerDto = {
+        nick_name: 'errorplayer',
+        first_name: null,
+        last_name: null,
+      };
+      const error = new Error('Database error');
+      jest.spyOn(service, 'savePlayer').mockRejectedValue(error);
+
+      await expect(controller.savePlayer(createPlayerDto)).rejects.toThrow(
+        'Database error',
+      );
+      expect(service.savePlayer).toHaveBeenCalledWith(createPlayerDto);
     });
   });
 });

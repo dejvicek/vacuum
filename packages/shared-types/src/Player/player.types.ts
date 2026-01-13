@@ -5,3 +5,9 @@ export interface Player {
   last_name: string | null;
   created_at: string;
 }
+
+export interface CreatePlayer {
+  nick_name: string;
+  first_name: string | null;
+  last_name: string | null;
+}
