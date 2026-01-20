@@ -12,7 +12,7 @@ export class GetRankingQuery {
     },
   )
   @Type(() => String)
-  fromDate!: string;
+  fromDate: string;
 
   @IsNotEmpty({
     message: 'toDate is required and must be in ISO 8601 format (YYYY-MM-DD)',
@@ -24,7 +24,7 @@ export class GetRankingQuery {
     },
   )
   @Type(() => String)
-  toDate!: string;
+  toDate: string;
 
   getErrorIfInvalid(): string | null {
     if (this.fromDate && this.toDate && this.fromDate > this.toDate) {

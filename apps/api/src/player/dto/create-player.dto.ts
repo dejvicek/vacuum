@@ -6,6 +6,7 @@ import {
   MinLength,
   Matches,
 } from 'class-validator';
+import { trimString } from '../../auth/dto/helpers/normalize-username.helper';
 import { CreatePlayer } from '@shared-types/Player/player.types';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
@@ -31,7 +32,7 @@ export class CreatePlayerDto implements CreatePlayer {
     required: false,
     nullable: true,
   })
-  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @Transform(({ value }) => trimString(value))
   @IsString()
   @IsOptional()
   @MaxLength(255)
@@ -43,7 +44,7 @@ export class CreatePlayerDto implements CreatePlayer {
     required: false,
     nullable: true,
   })
-  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @Transform(({ value }) => trimString(value))
   @IsString()
   @IsOptional()
   @MaxLength(255)
