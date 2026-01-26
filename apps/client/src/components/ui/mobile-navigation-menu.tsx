@@ -1,32 +1,33 @@
-import { FC, useState } from "react";
-import { Menu } from "lucide-react";
-import { Link } from "react-router";
-import { Button } from "./button";
-import { RouteData } from "@/hooks/useRoutes";
+import { FC } from 'react';
+import { Menu } from 'lucide-react';
+import { Link } from 'react-router';
+import { Button } from './button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './dropdown-menu';
+import { RouteData } from '@/hooks/useRoutes';
 
 type Props = {
-  routes: RouteData[];
+  readonly routes: readonly RouteData[];
 };
 
 export const MobileNavigationMenu: FC<Props> = ({ routes }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <aside className="flex flex-col items-start sm:hidden">
-      <Button variant={"ghost"} onClick={() => setIsOpen(!isOpen)}>
-        <Menu />
-      </Button>
-      {isOpen && (
-        <ul className="flex flex-col gap-6 items-start mt-5 pl-5">
+    <div className="flex sm:hidden">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <Menu className="h-5 w-5" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" side="bottom">
           {routes.map(({ path, title }) => (
-            <li key={path}>
-              <Link to={path} onClick={() => setIsOpen(false)}>
+            <DropdownMenuItem key={path} asChild>
+              <Link to={path} className="cursor-pointer">
                 {title}
               </Link>
-            </li>
+            </DropdownMenuItem>
           ))}
-        </ul>
-      )}
-    </aside>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 };

@@ -22,5 +22,41 @@
   },
   "table": {
     "no_results": "Žádné výsledky"
+  },
+  "auth": {
+    "login": {
+      "title": "Přihlášení",
+      "description": "Přihlaste se ke svému účtu",
+      "submit": "Přihlásit se",
+      "submitting": "Přihlašování...",
+      "noAccount": "Nemáte účet?",
+      "signupLink": "Zaregistrujte se"
+    },
+    "signup": {
+      "title": "Registrace",
+      "description": "Vytvořte si nový účet",
+      "submit": "Registrovat",
+      "submitting": "Registrace...",
+      "hasAccount": "Již máte účet?",
+      "loginLink": "Přihlaste se"
+    },
+    "fields": {
+      "username": "Uživatelské jméno",
+      "password": "Heslo"
+    },
+    "validation": {
+      "usernameMin": "Uživatelské jméno musí mít alespoň 3 znaky",
+      "usernameMax": "Uživatelské jméno může mít maximálně 10 znaků",
+      "usernameFormat": "Uživatelské jméno může obsahovat pouze malá písmena, čísla a podtržítka",
+      "passwordMin": "Heslo musí mít alespoň 8 znaků",
+      "passwordMax": "Heslo může mít maximálně 255 znaků"
+    },
+    "errors": {
+      "signin": "Přihlášení selhalo",
+      "signup": "Registrace selhala",
+      "invalidCredentials": "Neplatné přihlašovací údaje",
+      "usernameTaken": "Uživatelské jméno je již obsazeno",
+      "networkError": "Chyba sítě. Zkuste to prosím znovu."
+    }
   }
 }
