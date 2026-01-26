@@ -1,9 +1,7 @@
 import { IsNotEmpty, IsString, MinLength, MaxLength } from 'class-validator';
 import { Transform } from 'class-transformer';
-import {
-  normalizeUsername,
-  trimString,
-} from './helpers/normalize-username.helper';
+import { normalizeUsername } from './helpers/normalize-username.helper';
+import { trimString } from '../../common/utils/trim-string.util';
 
 export class AuthRequestDto {
   @IsNotEmpty()

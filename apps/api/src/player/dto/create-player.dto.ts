@@ -6,7 +6,7 @@ import {
   MinLength,
   Matches,
 } from 'class-validator';
-import { trimString } from '../../auth/dto/helpers/normalize-username.helper';
+import { trimString } from '../../common/utils/trim-string.util';
 import { CreatePlayer } from '@shared-types/Player/player.types';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
@@ -21,7 +21,7 @@ export class CreatePlayerDto implements CreatePlayer {
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(255)
-  @Matches(/^[a-zA-Z0-9_]+$/, {
+  @Matches(/^[\p{L}\p{N}_]+$/u, {
     message: 'nick_name can only contain letters, numbers and underscores',
   })
   nick_name: string;
