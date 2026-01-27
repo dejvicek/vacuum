@@ -1,10 +1,8 @@
 import { IsNotEmpty, IsString, MinLength, MaxLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { IsUsernameUnique } from '../validators/is-username-unique.validator';
-import {
-  normalizeUsername,
-  trimString,
-} from './helpers/normalize-username.helper';
+import { normalizeUsername } from './helpers/normalize-username.helper';
+import { trimString } from '../../common/utils/trim-string.util';
 
 export class SignupRequestDto {
   @IsNotEmpty()

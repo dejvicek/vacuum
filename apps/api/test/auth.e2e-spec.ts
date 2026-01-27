@@ -17,7 +17,7 @@ describe('AuthController (e2e)', () => {
     await cleanupE2eApp(app);
   });
 
-  describe('/auth/signup (POST)', () => {
+  describe('/public/auth/signup (POST)', () => {
     it('should successfully register a new user', async () => {
       const uniqueUsername = faker.internet.username().slice(0, 10);
       const signupDto = {
@@ -26,7 +26,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(201);
@@ -42,12 +42,12 @@ describe('AuthController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto)
         .expect(201);
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(400);
@@ -64,7 +64,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(400);
@@ -83,7 +83,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(400);
@@ -101,7 +101,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(400);
@@ -116,7 +116,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(400);
@@ -133,7 +133,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(201);
@@ -151,7 +151,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(201);
@@ -166,7 +166,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(400);
@@ -185,7 +185,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(400);
@@ -202,7 +202,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send(signupDto);
 
       expect(response.status).toStrictEqual(400);
@@ -212,18 +212,18 @@ describe('AuthController (e2e)', () => {
     });
   });
 
-  describe('/auth/signin (POST)', () => {
+  describe('/public/auth/signin (POST)', () => {
     it('should successfully sign in an existing user', async () => {
       const uniqueUsername = faker.internet.username().slice(0, 10);
       const password = 'password123';
 
       await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send({ username: uniqueUsername, password })
         .expect(201);
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signin')
+        .post('/api/v1/public/auth/signin')
         .send({ username: uniqueUsername, password });
 
       expect(response.status).toStrictEqual(201);
@@ -238,7 +238,7 @@ describe('AuthController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signin')
+        .post('/api/v1/public/auth/signin')
         .send(signinDto);
 
       expect(response.status).toStrictEqual(401);
@@ -252,12 +252,12 @@ describe('AuthController (e2e)', () => {
       const password = 'password123';
 
       await request(app.getHttpServer())
-        .post('/api/auth/signup')
+        .post('/api/v1/public/auth/signup')
         .send({ username: uniqueUsername, password })
         .expect(201);
 
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signin')
+        .post('/api/v1/public/auth/signin')
         .send({
           username: `  ${uniqueUsername.toUpperCase()}  `,
           password: `  ${password}  `,
@@ -270,7 +270,7 @@ describe('AuthController (e2e)', () => {
 
     it('should fail signin when password is too short', async () => {
       const response = await request(app.getHttpServer())
-        .post('/api/auth/signin')
+        .post('/api/v1/public/auth/signin')
         .send({ username: 'validuser', password: 'short' });
 
       expect(response.status).toStrictEqual(400);

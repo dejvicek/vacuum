@@ -35,7 +35,7 @@ export async function initializeE2eApp(
   }
 
   if (setApiPrefix) {
-    app.setGlobalPrefix('api');
+    app.setGlobalPrefix('api/v1');
   }
 
   await app.init();

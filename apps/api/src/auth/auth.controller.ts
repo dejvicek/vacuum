@@ -12,7 +12,7 @@ import { SignupRequestDto } from './dto/signup-request.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
-@Controller('auth')
+@Controller('public/auth/')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -32,7 +32,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/profile')
-  getProfile(@Request() req: any) {
+  getProfile(@Request() req: any): Record<string, unknown> {
     return {
       message: 'User profile data',
       user: req.user,

@@ -13,7 +13,7 @@ export const getRanking = async (
   toDate: string,
 ): Promise<Ranking[]> => {
   const response = await fetch(
-    `${API_BASE_URL}/ranking?fromDate=${fromDate}&toDate=${toDate}`,
+    `${API_BASE_URL}/v1/public/ranking?fromDate=${fromDate}&toDate=${toDate}`,
   );
 
   if (!response.ok) {

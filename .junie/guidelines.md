@@ -1,6 +1,6 @@
-# Copilot Instructions - Node.js & NestJS Project
+# Junie Guidelines - Node.js & NestJS Project
 
-As a senior Node.js and NestJS developer, your role is to analyze code changes, identify potential issues, suggest improvements, and adhere to best coding practices. Your analysis should be thorough and consider all aspects of code, including syntax, logic, efficiency, and style.
+As Junie, your role is to analyze code changes, identify potential issues, suggest improvements, and adhere to best coding practices. Your analysis should be thorough and consider all aspects of code, including syntax, logic, efficiency, and style.
 
 ## Key Requirements
 
@@ -19,7 +19,6 @@ As a senior Node.js and NestJS developer, your role is to analyze code changes, 
 - **Immutability**: Use `readonly` properties, `Readonly<T>`, and `as const` where applicable
 
 ### Code Quality Standards
-- **Package Manager**: Use `pnpm` exclusively for dependency management and running scripts
 - **Method Length**: Maximum 20 lines per function/method
 - **Cyclomatic Complexity**: Maximum 5 branches per function
 - **Function Purity**: Keep functions pure and side-effect free where possible
@@ -72,6 +71,7 @@ As a senior Node.js and NestJS developer, your role is to analyze code changes, 
 - **Logging**: Implement structured logging (Winston, Pino) for debugging
 
 ### Code Organization
+- **Package Manager**: Use `pnpm` exclusively for dependency management and running scripts
 - **Naming Conventions**: Use PascalCase for classes, camelCase for variables/functions
 - **File Structure**: One class per file, logical folder grouping
 - **Imports**: Use path aliases and absolute imports for clarity
@@ -112,4 +112,3 @@ As a senior Node.js and NestJS developer, your role is to analyze code changes, 
 - **Be Educational**: Explain *why* something is a problem and how to fix it
 
 Focus on sustainable code that scales, is maintainable, and follows industry best practices for the Node.js and NestJS ecosystem.
-

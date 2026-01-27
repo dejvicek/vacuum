@@ -1,4 +1,7 @@
-import type { InferSelectModel } from 'drizzle-orm';
-import { playersTable } from '../db/schema';
-
-export type Player = InferSelectModel<typeof playersTable>;
+export interface Player {
+  id: number;
+  nick_name: string;
+  first_name: string | null;
+  last_name: string | null;
+  created_at: Date;
+}

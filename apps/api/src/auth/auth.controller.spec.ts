@@ -33,12 +33,12 @@ describe('AuthController', () => {
       const signupRequestDto: SignupRequestDto = {
         username: '  TestUser  ',
         password: '  password123  ',
-      } as unknown as SignupRequestDto;
+      };
 
       const expectedResponse: AuthResponseDto = {
         accessToken: 'test_token',
         user: { id: 1, username: 'testuser' },
-      } as unknown as AuthResponseDto;
+      };
 
       mockAuthService.signup.mockResolvedValue(expectedResponse);
 
@@ -54,12 +54,12 @@ describe('AuthController', () => {
       const authRequestDto: AuthRequestDto = {
         username: '  TestUser  ',
         password: '  password123  ',
-      } as unknown as AuthRequestDto;
+      };
 
       const expectedResponse: AuthResponseDto = {
         accessToken: 'test_token',
         user: { id: 1, username: 'testuser' },
-      } as unknown as AuthResponseDto;
+      };
 
       mockAuthService.signin.mockResolvedValue(expectedResponse);
 
