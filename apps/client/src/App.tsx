@@ -5,6 +5,7 @@ import { PlayersPage } from './pages/players';
 import { Layout } from './components/layout';
 import { ThemeProvider } from '@/components/theme-provider';
 import { RankingPage } from './pages/ranking';
+import { SignInPage } from './pages/signIn';
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
               <Route index element={<div>Home</div>} />
               <Route path="/players" element={<PlayersPage />} />
               <Route path="/ranking" element={<RankingPage />} />
+              <Route path="/signin" element={<SignInPage />} />
             </Route>
           </Routes>
         </div>

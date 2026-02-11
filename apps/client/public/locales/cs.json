@@ -34,5 +34,14 @@
       "last_name_required": "Příjmení je povinné",
       "nick_name_required": "Přezdívka je povinná"
     }
+  },
+  "auth": {
+    "username": "Uživatelské jméno",
+    "password": "Heslo",
+    "login": "Přihlásit se",
+    "errors": {
+      "username_required": "Uživatelské jméno je povinné",
+      "password_required": "Heslo je povinné"
+    }
   }
 }
