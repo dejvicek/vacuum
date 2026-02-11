@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useSidebarContext } from '@/contexts/useSidebarContext';
 import { usePlayerForm, PlayerFormData } from '@/hooks/useForms/usePlayerForm';
-import { Player } from '@/api/player';
+import { createPlayer, Player } from '@/api/player';
 import { ActionButton } from './action-button';
 
 type Props = {
@@ -19,9 +19,19 @@ export const PlayerForm: FC<Props> = ({ player }) => {
     formState: { errors },
   } = usePlayerForm(player);
 
-  const onSubmit = (data: PlayerFormData) => {
-    console.log(player ? 'Editing player:' : 'Creating new player:', data);
-    // TODO: Call API for creating/editing player
+  const onSubmit = async (data: PlayerFormData) => {
+    try {
+      if (player) {
+        console.log('Editing player:', data);
+        // await updatePlayer(player.id, data);
+        return;
+      }
+      await createPlayer(data);
+
+      handleCloseSidebar();
+    } catch (error) {
+      console.error('Failed to save player:', error);
+    }
   };
 
   return (
