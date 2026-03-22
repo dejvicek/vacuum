@@ -26,6 +26,17 @@
     "add_player": "Přidat hráče",
     "enter_score": "Zadat výsledek"
   },
+  "tournamentRanking": {
+    "submit": "Uložit výsledek",
+    "player": "Hráč",
+    "rank": "Umístění",
+    "select_player_placeholder": "Vyber hráče",
+    "errors": {
+      "player_required": "Hráč je povinný",
+      "rank_required": "Umístění je povinné",
+      "rank_max": "Maximální umístění je 8"
+    }
+  },
   "form": {
     "submit": "Odeslat",
     "cancel": "Zrušit",
