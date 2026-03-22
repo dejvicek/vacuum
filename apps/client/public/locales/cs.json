@@ -9,10 +9,8 @@
   },
   "ranking": {
     "title": "Žebříček",
-    "nick_name": "Přezdívka",
-    "first_name": "Jméno",
-    "last_name": "Příjmení",
-    "points": "Body"
+    "points": "Body",
+    "loading": "Načítám žebříček..."
   },
   "pagination": {
     "previous": "Předchozí",
@@ -21,6 +19,29 @@
     "rows_per_page": "Počet na stránce"
   },
   "table": {
-    "no_results": "Žádné výsledky"
+    "no_results": "Žádné výsledky",
+    "edit": "Upravit"
+  },
+  "action_buttons": {
+    "add_player": "Přidat hráče",
+    "enter_score": "Zadat výsledek"
+  },
+  "form": {
+    "submit": "Odeslat",
+    "cancel": "Zrušit",
+    "errors": {
+      "first_name_required": "Jméno je povinné",
+      "last_name_required": "Příjmení je povinné",
+      "nick_name_required": "Přezdívka je povinná"
+    }
+  },
+  "auth": {
+    "username": "Uživatelské jméno",
+    "password": "Heslo",
+    "login": "Přihlásit se",
+    "errors": {
+      "username_required": "Uživatelské jméno je povinné",
+      "password_required": "Heslo je povinné"
+    }
   }
 }

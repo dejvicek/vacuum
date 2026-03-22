@@ -1,16 +1,16 @@
+import { PlayerFormData } from '@/hooks/useForms/usePlayerForm';
 import { Tables } from '../database.types';
+import { fetchApi } from '../fetchApi';
 
 export type Player = Tables<'player'>;
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+export const getPlayers = async (): Promise<Player[]> => fetchApi<Player[]>({ path: '/v1/public/player' });
 
-export const getPlayers = async (): Promise<Player[]> => {
-  const response = await fetch(`${API_BASE_URL}/v1/public/player`);
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch players: ${response.statusText}`);
-  }
-
-  return response.json();
-};
+export const createPlayer = async (payload: PlayerFormData): Promise<Player> =>
+  fetchApi<Player>({
+    path: '/v1/player',
+    options: {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    },
+  });
